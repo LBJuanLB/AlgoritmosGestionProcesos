@@ -20,11 +20,40 @@ input {
   text-align: center;
 }
 
-p{
+.text-box{
   width: 300px;
   text-align: center;
   border: 1px solid #d3d3d3;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+main {
+  text-align: center;
+}
+
+.BTNS-Algoritms {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.is-active {
+  background-color: #393E46;
+}
+
+.BTN-Actions {
+
+  padding: 2px;
+  margin: 0px;
+  margin-left: 2px;
+  margin-top: 2px;
+}
+
+.BTN-Actions img {
+  width: 35px;
+  margin: 0px;
+  padding: 0px;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 export const Chart = ({ series, title }) => {
+
   const options = {
     chart: {
       height: 390,

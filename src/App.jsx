@@ -1,7 +1,12 @@
 import './App.css'
 import { useState } from "react"
 import { FifoSjf } from "./componets/FifoSjf"
+import { RoundRobin } from './componets/RoundRobin'
 
+import AddImg from './assets/add.svg'
+import ConfirmImg from './assets/confirm.svg'
+import EditImg from './assets/edit.svg'
+import DeleteImg from './assets/delete.svg'
 
 /*
 Los procesos van a ser un array de objetos con la siguiente forma:
@@ -11,7 +16,6 @@ Los procesos van a ser un array de objetos con la siguiente forma:
   arrivalTime: 0, <-- Tiempo de llegada
   duration : 5,   <-- Rafaga de CPU
   priority: 1,
-  executed: false
 }
 */
 
@@ -19,6 +23,15 @@ function App() {
   const [ID, setID] = useState(0);
   const [editMode, setEditMode] = useState(false);
   const [processes, setProcesses] = useState([])
+  
+  const [quantum, setQuantum] = useState(2);
+  const [editQuantum, setEditQuantum] = useState(2);
+
+  const [viewSFJ, setViewSFJ] = useState(false);
+  const [viewFIFO, setViewFIFO] = useState(false);
+  const [viewPRIORIDAD, setViewPRIORIDAD] = useState(false);
+  const [viewRoundRobin, setViewRoundRobin] = useState(false);
+
   const [editProcess, setEditProcess] = useState({
     name: "",
     arrivalTime: 0,
@@ -35,27 +48,31 @@ function App() {
 
   const addProcess = () => {
     const { name, arrivalTime, duration, priority } = newProcessInfo;
-
     if (name.trim() !== "" && arrivalTime >= 0 && duration > 0) {
-      const newProcess = {
-        id: ID,
-        name: name,
-        arrivalTime: arrivalTime,
-        duration: duration,
-        priority: priority,
-  
-      };
+      // Verificar si el nombre ya existe en la lista de procesos
+      const isNameUnique = processes.every((process) => process.name !== name);
 
-      setID(ID + 1);
-      setProcesses([...processes, newProcess]);
-      // Limpiar los campos después de agregar
-      setNewProcessInfo({
-        name: "",
-        arrivalTime: 0,
-        duration: 0,
-        priority: 0,
-  
-      });
+      if (isNameUnique) {
+        const newProcess = {
+          id: ID,
+          name: name,
+          arrivalTime: arrivalTime,
+          duration: duration,
+          priority: priority,
+        };
+
+        setID(ID + 1);
+        setProcesses([...processes, newProcess]);
+        // Limpiar los campos después de agregar
+        setNewProcessInfo({
+          name: "",
+          arrivalTime: 0,
+          duration: 0,
+          priority: 0,
+        });
+      } else {
+        alert("El nombre del proceso debe ser único.");
+      }
     }
   };
 
@@ -67,11 +84,22 @@ function App() {
 
   const confirmEdit = (id) => {
     const updatedProcesses = processes.map((process) => {
-      if(process.id === id){
-        return editProcess;
+      if (process.id === id) {
+        // Verificar si el nombre ya existe en la lista de procesos
+        const isNameUnique = processes.every(
+          (otherProcess) => otherProcess.id === id || otherProcess.name !== editProcess.name
+        );
+  
+        if (isNameUnique) {
+          return editProcess;
+        } else {
+          alert("El nombre del proceso debe ser único.");
+          return process; // Mantener el proceso sin cambios si el nombre no es único
+        }
       }
       return process;
     });
+  
     setProcesses(updatedProcesses);
     setEditMode(null);
   }
@@ -158,11 +186,11 @@ function App() {
                 <td>
                   {/*Boton para editar o confirmar edición*/
                   editMode === process.id ? 
-                  <button onClick={() => confirmEdit(process.id)}><i class="fa-solid fa-check"></i></button> : 
-                  <button onClick={() => edit(process.id)}><i class="fa-solid fa-pen-to-square"></i></button>}
+                  <button className='BTN-Actions' onClick={() => confirmEdit(process.id)}><img src={ConfirmImg} alt='Confirmar edicion' /></button> : 
+                  <button className='BTN-Actions' onClick={() => edit(process.id)}><img src={EditImg} alt='Editar proceso'/></button>}
                    
                   {/*Boton para eliminar el proceso*/}
-                  <button onClick={() => removeProcess(process.id)}> <i class="fa-regular fa-trash-can" ></i></button>
+                  <button className='BTN-Actions' onClick={() => removeProcess(process.id)}><img src={DeleteImg} alt='Eliminar proceso'/></button>
                 </td>
               </tr>
             ))}
@@ -205,14 +233,41 @@ function App() {
               </td>
               <td>
                 {/*Boton para agregar el proceso*/}
-                <button className="btn-confirm" onClick={addProcess}><i class="fa-solid fa-plus"></i></button>
+                <button className="btn-confirm BTN-Actions" onClick={addProcess}><img src={AddImg} alt='Agregar proceso'/></button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <FifoSjf process={JSON.parse(JSON.stringify(processes))} type={'FIFO'} />
-      <FifoSjf process={JSON.parse(JSON.stringify(processes))} type={'SJF'} />
+      <div>
+      <label htmlFor="quantum">Quantum: </label>
+      <input
+        name="quantum"
+        min={1}
+        type="number"
+        value={editQuantum}
+        onChange={(e) => setEditQuantum(e.target.value)}
+      />
+      <button onClick={() => setQuantum(editQuantum)}>Aplicar</button>
+      </div>
+      <div className='BTNS-Algoritms'>
+        <button className={viewFIFO ? 'is-active' : ''}onClick={() => setViewFIFO(!viewFIFO)}>FIFO</button>
+        <button className={viewSFJ ? 'is-active' : ''} onClick={() => setViewSFJ(!viewSFJ)}>SFJ</button>
+        <button className={viewPRIORIDAD ? 'is-active' : ''}onClick={() => setViewPRIORIDAD(!viewPRIORIDAD)}>Prioridad</button>
+        <button className={viewRoundRobin ? 'is-active' : ''}onClick={() => setViewRoundRobin(!viewRoundRobin)}>Round Robin</button>
+      </div>
+      {
+        viewFIFO && <FifoSjf process={JSON.parse(JSON.stringify(processes))} type={'FIFO'} />
+      }
+      {
+        viewSFJ && <FifoSjf process={JSON.parse(JSON.stringify(processes))} type={'SJF'} />
+      }
+      {
+        viewPRIORIDAD && <FifoSjf process={JSON.parse(JSON.stringify(processes))} type={'PRIORIDAD'} />
+      }
+      {
+        viewRoundRobin && <RoundRobin process={JSON.parse(JSON.stringify(processes))} quantum={Number(quantum)} />
+      }
     </main>
   )
 }

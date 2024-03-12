@@ -1,7 +1,6 @@
 import { Chart } from './Chart';
 
 export function FifoSjf ({process,type = 'FIFO'}) {
-    console.log(process)
     let waitingTime = 0;
     let systemTime = 0;
     let processList = [];
@@ -17,10 +16,14 @@ export function FifoSjf ({process,type = 'FIFO'}) {
             //Ordenar por tiempo de llegada
             title = 'FIFO - First In First Out'
             processList.sort((a, b) => a.arrivalTime - b.arrivalTime);
-        } else {
+        } else if (type == 'SJF') {
             //Ordenar por tiempo de duración
             title = 'SJF - Short Job First'
             processList.sort((a, b) => a.duration - b.duration);
+        } else if (type == 'PRIORIDAD'){
+            //Ordenar por prioridad
+            title = 'Prioridad'
+            processList.sort((a, b) => a.priority - b.priority);
         }
         
         const ProcessLength = processList.length;
@@ -58,8 +61,8 @@ export function FifoSjf ({process,type = 'FIFO'}) {
         <div>
             {Times()}
             <Chart series={[{data:ProcessValues}]} title={title} />
-            <p>Tiempo de espera promedio: {waitingTime >= 0  ? waitingTime.toFixed(2) : 0}</p>
-            <p>Tiempo de sistema promedio: {systemTime >= 0 ? systemTime.toFixed(2) : 0}</p>
+            <p className='text-box'>Tiempo de espera promedio: {waitingTime >= 0  ? waitingTime.toFixed(2) : 0}</p>
+            <p className='text-box'>Tiempo de sistema promedio: {systemTime >= 0 ? systemTime.toFixed(2) : 0}</p>
         </div>
     );
 }
