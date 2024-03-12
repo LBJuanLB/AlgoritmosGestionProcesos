@@ -57,3 +57,25 @@ main {
   margin: 0px;
   padding: 0px;
 }
+
+footer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+
+}
+
+.link-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+}
+
+.link-footer img{
+  width: 35px;
+  margin: 0px;
+  padding: 0px;
+}

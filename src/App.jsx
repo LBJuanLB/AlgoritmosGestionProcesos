@@ -7,6 +7,7 @@ import AddImg from './assets/add.svg'
 import ConfirmImg from './assets/confirm.svg'
 import EditImg from './assets/edit.svg'
 import DeleteImg from './assets/delete.svg'
+import GitHubImg from './assets/github.svg'
 
 /*
 Los procesos van a ser un array de objetos con la siguiente forma:
@@ -268,6 +269,10 @@ function App() {
       {
         viewRoundRobin && <RoundRobin process={JSON.parse(JSON.stringify(processes))} quantum={Number(quantum)} />
       }
+
+      <footer>
+        <a className='link-footer' href="https://github.com/LBJuanLB/AlgoritmosGestionProcesos" target="_blank" rel="noopener noreferrer"><img src={GitHubImg} alt='Repositorio del aplicativo'/></a>
+      </footer>
     </main>
   )
 }

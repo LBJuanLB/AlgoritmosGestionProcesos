@@ -1,8 +1,17 @@
-# React + Vite
+# Algoritmos de Gestion de Procesos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Un aplicativo web donde se puede agregar procesos indicando nombre, rafaga (Duracion en la CPU), tiempo de llegada y la prioridad.
 
-Currently, two official plugins are available:
+Los algoritmos implementados fueron:
+- FIFO - First In First Out
+- SJF  - Short Job First
+- Algoritmo por prioridad
+- Round Robin 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Desarollado por:
+- Juan Jose Espinosa Mendez
+- Santiago Ayala Ruiz
+
+Tecnologias utilizadas:
+- React
+- ApexCharts
