@@ -122,7 +122,7 @@ function App() {
 
   return (
     <main id="app">
-      <h1>Algoritmos de Gestion de Procesos</h1>
+      <h1>Algoritmos de Despacho</h1>
       <div>
         <table className="table">
           <thead>
