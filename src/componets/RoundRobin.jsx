@@ -16,7 +16,7 @@ export function RoundRobin({process, quantum = 2}) {
 
         while (remainingProcesses > 0) {
             for (let i = 0; i < processList.length; i++) {
-                if (remainingTime[i] > 0 && processList[i].arrivalTime <= time) {
+                if (remainingTime[i] > 0) {
                     let start = time;
                     if (remainingTime[i] > quantum) {
                         time += quantum;
