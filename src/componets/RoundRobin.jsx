@@ -13,10 +13,13 @@ export function RoundRobin({process, quantum = 2}) {
         //Creamos un arreglo con el tiempo de duración de cada proceso
         let remainingTime = processList.map((process) => Number(process.duration));
         let waitTime = processList.map(() => 0);
+        
+        //Variable para contar cuantos procesos no se han podido ejecutar por que aun no llega su tiempo de llegada
+        let ciclos = 0;
 
         while (remainingProcesses > 0) {
             for (let i = 0; i < processList.length; i++) {
-                if (remainingTime[i] > 0) {
+                if (remainingTime[i] > 0 && processList[i].arrivalTime <= time) {
                     let start = time;
                     if (remainingTime[i] > quantum) {
                         time += quantum;
@@ -24,12 +27,19 @@ export function RoundRobin({process, quantum = 2}) {
                     } else {
                         time += remainingTime[i];
                         waitTime[i] = time - processList[i].arrivalTime - processList[i].duration;
-                        console.log(waitTime[i]);
                         remainingTime[i] = 0;
                         remainingProcesses -= 1;
                     }
                     let end = time;
                     ProcessValues.push({x: processList[i].name, y: [start, end]});
+                    ciclos = 0;
+                } else if (remainingTime[i] > 0 && ciclos >= processList.length) {
+                    console.log('entro')
+                    time++;
+                    ciclos = 0;
+                } else {
+                    console.log('hola')
+                    ciclos++;
                 }
             }
         }

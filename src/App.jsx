@@ -152,6 +152,7 @@ function App() {
                 <td>
                   {editMode === process.id ?
                   <input
+                  required
                   min={0}
                   type="number"
                   name="duration"
@@ -165,6 +166,7 @@ function App() {
                 <td>
                   {editMode === process.id ?
                   <input
+                  required
                   min={0}
                   type="number"
                   name="arrivalTime"
@@ -207,6 +209,7 @@ function App() {
               </td>
               <td>
                 <input
+                  required
                   min={0}
                   type="number"
                   name="duration"
@@ -216,6 +219,7 @@ function App() {
               </td>
               <td>
                 <input
+                  required
                   min={0}
                   type="number"
                   name="arrivalTime"
